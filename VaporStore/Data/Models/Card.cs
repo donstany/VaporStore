@@ -1,32 +1,41 @@
-﻿using VaporStore.Data.Models.Enums;
-
-namespace VaporStore.Data.Models
+﻿namespace VaporStore.Data.Models
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
+	using System.Collections.Generic;
+	using System.ComponentModel.DataAnnotations;
+	using System.ComponentModel.DataAnnotations.Schema;
+	using Enums;
 
-    public class Card
-    {
-        public Card()
-        {
-            this.Purchases = new HashSet<Purchase>();
-        }
+	public class Card
+	{
+		public Card()
+		{
+		}
 
-        public int Id { get; set; }
+		public Card(string number, string cvc, CardType type)
+		{
+			this.Number = number;
+			this.Cvc = cvc;
+			this.Type = type;
+		}
 
-        [Required]
-        [RegularExpression("^[0-9]{4}\\s+[0-9]{4}\\s+[0-9]{4}\\s+[0-9]{4}$")]
-        public string Number { get; set; }
+		[Key]
+		public int Id { get; set; }
 
-        [Required]
-        [RegularExpression("^[0-9]{3}$")]
-        public string Cvc { get; set; }
+		[Required]
+		[RegularExpression(@"\d{4} \d{4} \d{4} \d{4}")]
+		public string Number { get; set; }
 
-        public CardType Type { get; set; }
+		[RegularExpression(@"\d{3}")]
+		public string Cvc { get; set; }
 
-        public int UserId { get; set; }
-        public User User { get; set; }
+		[Required]
+		public CardType Type { get; set; }
 
-        public ICollection<Purchase> Purchases { get; set; }
-    }
+		[ForeignKey(nameof(User))]
+		public int UserId { get; set; }
+
+		public User User { get; set; }
+
+		public ICollection<Purchase> Purchases { get; set; }
+	}
 }

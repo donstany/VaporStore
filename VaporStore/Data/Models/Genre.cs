@@ -1,20 +1,24 @@
 ﻿namespace VaporStore.Data.Models
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
+	using System.Collections.Generic;
+	using System.ComponentModel.DataAnnotations;
 
-    public class Genre
-    {
-        public Genre()
-        {
-            this.Games = new HashSet<Game>();
-        }
+	public class Genre
+	{
+		public Genre()
+		{
+		}
 
-        public int Id { get; set; }
+		public Genre(string name)
+		{
+			this.Name = name;
+		}
 
-        [Required]
-        public string Name { get; set; }
+		public int Id { get; set; }
 
-        public ICollection<Game> Games { get; set; }
-    }
+		[Required]
+		public string Name { get; set; }
+
+		public ICollection<Game> Games { get; set; }
+	}
 }

@@ -1,26 +1,43 @@
-﻿using VaporStore.Data.Models.Enums;
-
-namespace VaporStore.Data.Models
+﻿namespace VaporStore.Data.Models
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
+	using System;
+	using System.ComponentModel.DataAnnotations;
+	using System.ComponentModel.DataAnnotations.Schema;
+	using Enums;
 
-    public class Purchase
-    {
-        public int Id { get; set; }
+	public class Purchase
+	{
+		public Purchase()
+		{
+		}
 
-        public PurchaseType Type { get; set; }
+		public Purchase(Game game, PurchaseType type, Card card, string productKey, DateTime date)
+		{
+			this.Game = game;
+			this.Type = type;
+			this.Card = card;
+			this.ProductKey = productKey;
+			this.Date = date;
+		}
 
-        [Required]
-        [RegularExpression("^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$")]
-        public string ProductKey { get; set; }
+		[Key]
+		public int Id { get; set; }
 
-        public DateTime Date { get; set; }
+		public PurchaseType Type { get; set; }
 
-        public int CardId { get; set; }
-        public Card Card { get; set; }
+		[RegularExpression(@"^[\dA-Z]{4}-[\dA-Z]{4}-[\dA-Z]{4}$")]
+		public string ProductKey { get; set; }
 
-        public int GameId { get; set; }
-        public Game Game { get; set; }
-    }
+		public DateTime Date { get; set; }
+
+		[ForeignKey(nameof(Card))]
+		public int CardId { get; set; }
+
+		public Card Card { get; set; }
+
+		[ForeignKey(nameof(Game))]
+		public int GameId { get; set; }
+
+		public Game Game { get; set; }
+	}
 }
